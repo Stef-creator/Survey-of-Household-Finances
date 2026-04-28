@@ -1,0 +1,26 @@
+# ── macOS ─────────────────────────────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ── R ─────────────────────────────────────────────────────────────────────────
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj.user
+.Ruserdata
+
+# ── Python / virtual environment ───────────────────────────────────────────────
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+
+# ── Survey data (large binary files, not for version control) ─────────────────
+toshare/
+
+# ── OS / editor ────────────────────────────────────────────────────────────────
+.vscode/
+*.swp
+*~

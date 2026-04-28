@@ -1,0 +1,60 @@
+\begin{table}
+\centering
+\begin{talltblr}[         %% tabularray outer open
+caption={Mortgage Holder — Weighted LPM (Three Specifications)},
+note{}={* p \num{< 0.1}, ** p \num{< 0.05}, *** p \num{< 0.01}},
+note{ }={Sample: homeowners (\textbackslash{}texttt\{own\} = 1) from EFF 2017 (imp = 1).},
+note{  }={Survey weights (\textbackslash{}textit\{facine3\}) applied throughout.},
+note{   }={Robust standard errors (HC1) in parentheses.},
+note{    }={Reference: educ\textbackslash{}\_cat = 2\textbackslash{}\_Primary; wealth\textbackslash{}\_q = Q1.},
+note{     }={\$\textasciicircum{}\{*\}p<0.10\$; \$\textasciicircum{}\{**\}p<0.05\$; \$\textasciicircum{}\{***\}p<0.01\$.},
+]                     %% tabularray outer close
+{                     %% tabularray inner open
+colspec={Q[]Q[]Q[]Q[]},
+column{2,3,4}={}{halign=c,},
+column{1}={}{halign=l,},
+hline{38}={1,2,3,4}{solid, black, 0.05em},
+}                     %% tabularray inner close
+\toprule
+& (1) Baseline & (2) + Wealth Quintile & (3) + Interaction \\ \midrule %% TinyTableHeader
+(Intercept) & \num{1.3197}*** & \num{1.1563}*** & \num{1.1560}*** \\
+& (\num{0.1560}) & (\num{0.1630}) & (\num{0.1630}) \\
+non\_emp\_rate & \num{-0.2593}*** & \num{-0.2654}*** & \num{-0.2647}*** \\
+& (\num{0.0354}) & (\num{0.0350}) & (\num{0.0353}) \\
+fin\_share & \num{0.0179}* & \num{0.0275}*** & \num{0.0293}*** \\
+& (\num{0.0104}) & (\num{0.0097}) & (\num{0.0113}) \\
+age\_resp & \num{-0.0202}*** & \num{-0.0146}*** & \num{-0.0146}*** \\
+& (\num{0.0050}) & (\num{0.0052}) & (\num{0.0052}) \\
+age2 & \num{0.0001}** & \num{0.0000} & \num{0.0000} \\
+& (\num{0.0000}) & (\num{0.0000}) & (\num{0.0000}) \\
+educ\_cat2\_Primary & \num{0.0054} & \num{0.0338} & \num{0.0340} \\
+& (\num{0.0240}) & (\num{0.0266}) & (\num{0.0266}) \\
+educ\_cat3\_Lower\_sec & \num{0.0245} & \num{0.0711}** & \num{0.0715}** \\
+& (\num{0.0334}) & (\num{0.0338}) & (\num{0.0339}) \\
+educ\_cat4\_Vocational & \num{0.0536} & \num{0.1035}** & \num{0.1039}** \\
+& (\num{0.0467}) & (\num{0.0481}) & (\num{0.0481}) \\
+educ\_cat5\_Upper\_sec & \num{0.0825}** & \num{0.1414}*** & \num{0.1418}*** \\
+& (\num{0.0347}) & (\num{0.0375}) & (\num{0.0376}) \\
+educ\_cat6\_Post\_sec & \num{0.0794}** & \num{0.1403}*** & \num{0.1407}*** \\
+& (\num{0.0387}) & (\num{0.0407}) & (\num{0.0407}) \\
+educ\_cat7\_University & \num{0.1487}*** & \num{0.2237}*** & \num{0.2240}*** \\
+& (\num{0.0317}) & (\num{0.0367}) & (\num{0.0367}) \\
+educ\_cat8\_Other & \num{0.5160}*** & \num{0.6055}*** & \num{0.6055}*** \\
+& (\num{0.0784}) & (\num{0.0831}) & (\num{0.0831}) \\
+hhsize & \num{0.0256}** & \num{0.0324}*** & \num{0.0323}*** \\
+& (\num{0.0102}) & (\num{0.0106}) & (\num{0.0106}) \\
+wealth\_qQ2 &  & \num{-0.0680}** & \num{-0.0679}** \\
+&  & (\num{0.0288}) & (\num{0.0288}) \\
+wealth\_qQ3 &  & \num{-0.1175}*** & \num{-0.1174}*** \\
+&  & (\num{0.0280}) & (\num{0.0280}) \\
+wealth\_qQ4 &  & \num{-0.1641}*** & \num{-0.1639}*** \\
+&  & (\num{0.0341}) & (\num{0.0341}) \\
+wealth\_qQ5 &  & \num{-0.1538}*** & \num{-0.1535}*** \\
+&  & (\num{0.0333}) & (\num{0.0335}) \\
+non\_emp\_rate × fin\_share &  &  & \num{-0.0069} \\
+&  &  & (\num{0.0228}) \\
+N & \num{5168} & \num{5168} & \num{5168} \\
+\$R\textasciicircum{}2\$ & \num{0.341} & \num{0.353} & \num{0.353} \\
+\bottomrule
+\end{talltblr}
+\end{table}

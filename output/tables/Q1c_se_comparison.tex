@@ -1,0 +1,17 @@
+\begin{table}[!h]
+
+\caption{\label{tab:tab:se_comparison}Standard error of weighted mean total net wealth under alternative approaches (EFF 2017)}
+\centering
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{5.5cm}>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{6.5cm}}
+\toprule
+Approach & SE (EUR) & Comment\\
+\midrule
+Single implicate ($m = 1$ only) & 8,056.87 & Ignores imputation uncertainty\\
+Stacked, adjusted weights ($w_i / M$) & 3,617.10 & Treats 5N obs. as independent; underestimates SE\\
+Stacked, raw weights ($w_i$) & 3,617.10 & Same as above (scaling cancels in mean)\\
+\textbf{Rubin's rules (correct, $M = 5$)} & \textbf{8,159.14} & \textbf{Accounts for both sampling and imputation uncertainty}\\
+\bottomrule
+\multicolumn{3}{l}{\rule{0pt}{1em}\textit{Note:}}\\
+\multicolumn{3}{l}{\rule{0pt}{1em}Combined Rubin estimate: $\bar{Q} = 251,896.95$ EUR. 95\% CI: [235,903.90,\; 267,890.01] EUR.}\\
+\end{tabular}
+\end{table}
