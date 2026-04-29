@@ -1,0 +1,83 @@
+\begin{table}
+
+\caption{Weighted LPM: main-residence ownership --- full vs grouped education (EFF 2017, imp~=~1)}
+\centering
+\begin{tabular}[t]{lcc}
+\toprule
+  & Full (14 raw codes) & Grouped (8 categories)\\
+\midrule
+Intercept & \num{-0.622}*** & \num{-0.646}***\\
+ & (\num{0.119}) & (\num{0.119})\\
+Age & \num{0.037}*** & \num{0.038}***\\
+\addlinespace[0.3em]
+\multicolumn{3}{l}{\textit{Education (ref.: Illiterate)}}\\
+\hspace{1em} & (\num{0.004}) & (\num{0.004})\\
+\hspace{1em}Age$^2$ & \num{-0.000}*** & \num{-0.000}***\\
+\hspace{1em} & (\num{0.000}) & (\num{0.000})\\
+\hspace{1em}\hspace{6pt} Primary & \num{-0.022} & \\
+\hspace{1em} & (\num{0.050}) & \\
+\hspace{1em}\hspace{6pt} Voc.\ (< ESO) & \num{0.105} & \\
+\hspace{1em} & (\num{0.068}) & \\
+\hspace{1em}\hspace{6pt} Lower sec.\ (ESO) & \num{0.038} & \\
+\hspace{1em} & (\num{0.054}) \vphantom{2} & \\
+\hspace{1em}\hspace{6pt} Voc.\ (ESO) & \num{0.136}** & \\
+\hspace{1em} & (\num{0.065}) & \\
+\hspace{1em}\hspace{6pt} Bachillerato & \num{-0.048} & \\
+\hspace{1em} & (\num{0.055}) & \\
+\hspace{1em}\hspace{6pt} Voc.\ (Bachillerato) & \num{0.112} & \\
+\hspace{1em} & (\num{0.071}) & \\
+\hspace{1em}\hspace{6pt} Post-sec.\ vocational & \num{0.064} & \\
+\hspace{1em} & (\num{0.056}) & \\
+\hspace{1em}\hspace{6pt} Post-sec.\ (2+ yr) & \num{-0.068} & \\
+\hspace{1em} & (\num{0.093}) & \\
+\hspace{1em}\hspace{6pt} Master & \num{-0.030} & \\
+\addlinespace[0.3em]
+\multicolumn{3}{l}{\textit{Labour status (ref.: Employed)}}\\
+\hspace{1em} & (\num{0.085}) & \\
+\hspace{1em}\hspace{6pt} PhD & \num{-0.059} & \\
+\hspace{1em} & (\num{0.107}) & \\
+\hspace{1em}\hspace{6pt} Other (raw) & \num{-0.468}** & \\
+ & (\num{0.213}) & \\
+\hspace{6pt} Diplomado & \num{0.134}** & \\
+ & (\num{0.054}) \vphantom{1} & \\
+\hspace{6pt} Licenciado & \num{0.079} & \\
+ & (\num{0.054}) & \\
+\hspace{6pt} Primary [grouped] &  & \num{-0.021}\\
+ &  & (\num{0.050})\\
+\hspace{6pt} Lower secondary [grouped] &  & \num{0.051}\\
+ &  & (\num{0.054})\\
+\hspace{6pt} Vocational [grouped] &  & \num{0.130}**\\
+ &  & (\num{0.060})\\
+\hspace{6pt} Upper secondary [grouped] &  & \num{-0.045}\\
+ &  & \vphantom{1} (\num{0.055})\\
+\hspace{6pt} Post-secondary [grouped] &  & \num{0.053}\\
+ &  & (\num{0.055})\\
+\hspace{6pt} University [grouped] &  & \num{0.077}\\
+ &  & (\num{0.053})\\
+\hspace{6pt} Other [grouped] &  & \num{-0.463}**\\
+ &  & (\num{0.216})\\
+\hspace{6pt} Self-employed & \num{0.090}*** & \num{0.088}***\\
+ & (\num{0.033}) & (\num{0.033})\\
+\hspace{6pt} Unemployed & \num{-0.128}*** & \num{-0.128}***\\
+ & (\num{0.033}) & (\num{0.034})\\
+\hspace{6pt} Retired & \num{0.031} & \num{0.033}\\
+ & (\num{0.025}) & (\num{0.025})\\
+\hspace{6pt} Inactive & \num{0.031} & \num{0.031}\\
+ & (\num{0.027}) & (\num{0.027})\\
+Household size & \num{0.033}*** & \num{0.034}***\\
+ & (\num{0.008}) & (\num{0.008})\\
+Log income & \num{0.012}** & \num{0.011}**\\
+ & (\num{0.005}) & (\num{0.005})\\
+\midrule
+$N$ & \num{6413} & \num{6413}\\
+$R^2$ & \num{0.1263} & \num{0.1203}\\
+\bottomrule
+\multicolumn{3}{l}{\rule{0pt}{1em}\textit{\textit{Notes:} }}\\
+\multicolumn{3}{l}{\rule{0pt}{1em}HC1 robust SEs in parentheses. Survey weights (\texttt{facine3}) applied. Full model: 14 raw \texttt{educ_resp} dummies (ref. = Illiterate). Grouped model: 8 broader categories. Mean HC1 SE on education dummies --- full: 0.079, grouped: 0.078. $R^2$ virtually identical (0.2196 vs 0.2185).}\\
+\multicolumn{3}{l}{\rule{0pt}{1em}\textit{Significance: }}\\
+\multicolumn{3}{l}{\rule{0pt}{1em}\textsuperscript{*} $p<0.10$}\\
+\multicolumn{3}{l}{\rule{0pt}{1em}\textsuperscript{\dag} $p<0.05$}\\
+\multicolumn{3}{l}{\rule{0pt}{1em}\textsuperscript{\ddag} $p<0.01$}\\
+\multicolumn{3}{l}{\rule{0pt}{1em}* p $<$ 0.1, ** p $<$ 0.05, *** p $<$ 0.01}\\
+\end{tabular}
+\end{table}

@@ -41,6 +41,73 @@ cat(sprintf("  debt_ratio   (deud/totnet):   %.4f  | excluded n=%d (totnet <= 0)
             med_debt_ratio, n_excl_debt))
 cat(sprintf("  non_emp_rate (share non-emp): %.4f\n", med_non_emp))
 
+# ---- Q5a: Percentile distribution table (LaTeX) ----------------------------
+valid_d <- eff1_c[!is.na(eff1_c$debt_ratio), ]
+valid_f <- eff1_c[!is.na(eff1_c$fin_share), ]
+valid_n <- eff1_c[!is.na(eff1_c$non_emp_rate), ]
+
+dist_tbl <- dplyr::tibble(
+  Statistic = c("Mean", "P25", "Median (P50)", "P75", "P90",
+                "Share with zero debt (\\%)", "$N$ (valid obs.)"),
+  `Debt-to-net-wealth ratio` = c(
+    sprintf("%.3f", wt_mean(valid_d$debt_ratio, valid_d$facine3)),
+    sprintf("%.3f", wt_quantile(valid_d$debt_ratio, valid_d$facine3, 0.25)),
+    sprintf("%.3f", wt_quantile(valid_d$debt_ratio, valid_d$facine3, 0.50)),
+    sprintf("%.3f", wt_quantile(valid_d$debt_ratio, valid_d$facine3, 0.75)),
+    sprintf("%.3f", wt_quantile(valid_d$debt_ratio, valid_d$facine3, 0.90)),
+    sprintf("%.1f", wt_mean(as.integer(valid_d$debt_ratio == 0), valid_d$facine3) * 100),
+    sprintf("%d",   nrow(valid_d))
+  ),
+  `Financial wealth share` = c(
+    sprintf("%.3f", wt_mean(valid_f$fin_share, valid_f$facine3)),
+    sprintf("%.3f", wt_quantile(valid_f$fin_share, valid_f$facine3, 0.25)),
+    sprintf("%.3f", wt_quantile(valid_f$fin_share, valid_f$facine3, 0.50)),
+    sprintf("%.3f", wt_quantile(valid_f$fin_share, valid_f$facine3, 0.75)),
+    sprintf("%.3f", wt_quantile(valid_f$fin_share, valid_f$facine3, 0.90)),
+    "---",
+    sprintf("%d",   nrow(valid_f))
+  ),
+  `Non-employment rate` = c(
+    sprintf("%.3f", wt_mean(valid_n$non_emp_rate, valid_n$facine3)),
+    sprintf("%.3f", wt_quantile(valid_n$non_emp_rate, valid_n$facine3, 0.25)),
+    sprintf("%.3f", wt_quantile(valid_n$non_emp_rate, valid_n$facine3, 0.50)),
+    sprintf("%.3f", wt_quantile(valid_n$non_emp_rate, valid_n$facine3, 0.75)),
+    sprintf("%.3f", wt_quantile(valid_n$non_emp_rate, valid_n$facine3, 0.90)),
+    "---",
+    sprintf("%d",   nrow(valid_n))
+  )
+)
+
+options(modelsummary_factory_latex = "kableExtra")
+
+tbl_dist <- kableExtra::kable(
+  dist_tbl,
+  col.names = c("Statistic",
+                "Debt-to-net-wealth ratio ($\\mathit{deud}/\\mathit{totnet}$)",
+                "Financial wealth share ($\\mathit{finet}/\\mathit{totnet}$)",
+                "Non-employment rate"),
+  caption   = "Survey-weighted distribution of constructed variables (EFF 2017, imp~=~1)",
+  label     = "tab:dist_constructed",
+  format    = "latex",
+  booktabs  = TRUE,
+  escape    = FALSE,
+  align     = "lccc"
+) |>
+  kableExtra::footnote(
+    general = paste0(
+      "Debt and financial wealth ratios exclude households with $\\\\mathit{totnet} \\\\leq 0$ ($n = ",
+      n_excl_debt, "$). ",
+      "Non-employment rate = share of household members not employed or self-employed; ",
+      "member 10 not recorded in EFF for 2 households. ",
+      "All statistics survey-weighted using \\\\texttt{facine3}."
+    ),
+    escape        = FALSE,
+    general_title = "\\\\textit{Notes:} "
+  )
+
+writeLines(tbl_dist, file.path(TAB_DIR, "Q5a_dist_constructed.tex"))
+cat("  Table saved: Q5a_dist_constructed.tex\n")
+
 # ---- Q5b: Group comparison --------------------------------------------------
 # Groups (mutually exclusive, exhaustive):
 #   "One property"  : own == 1 & own_ot == 0  (main residence only)

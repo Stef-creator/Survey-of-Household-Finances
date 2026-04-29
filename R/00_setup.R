@@ -108,7 +108,7 @@ save_plot <- function(p, filename, width = 9, height = 6) {
 
 # ---- 5. Education category helper (used in Q3, Q4, Q6) ---------------------
 # Groups educ_resp into 8 meaningful ordered categories.
-# Reference level in regressions: "Primary" (2_Primary).
+# Reference level in regressions: "Illiterate" (1_Illiterate) — alphabetically first.
 make_educ_cat <- function(educ_resp) {
   lvl <- dplyr::case_when(
     educ_resp == 1                        ~ "1_Illiterate",
@@ -120,7 +120,7 @@ make_educ_cat <- function(educ_resp) {
     educ_resp %in% c(1001, 1002, 11, 12) ~ "7_University",
     TRUE                                  ~ "8_Other"
   )
-  factor(lvl)  # "2_Primary" is reference (alphabetically)
+  factor(lvl)  # "1_Illiterate" is the reference (alphabetically first)
 }
 
 # Labour market status (priority order handles rare overlaps)

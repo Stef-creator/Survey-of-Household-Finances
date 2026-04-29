@@ -383,3 +383,167 @@ cat("\n  Q3d discussion:
   - Income: log income coefficient larger for secondary homes (wealth is key).
   Broadly, both outcomes share the lifecycle and income/education drivers, but
   secondary homes reflect accumulated wealth more than housing need.\n")
+
+# =============================================================================
+# Q3e: Full vs grouped education specification comparison
+# =============================================================================
+cat("\n===== Q3e: Full vs grouped education comparison =====\n")
+
+# Full model: all 14 raw educ_resp codes as separate dummies
+eff1_full <- eff1 |>
+  dplyr::mutate(
+    educ_full  = factor(educ_resp),
+    labour_cat = make_labour_cat(emp_resp, self_resp, une_resp, ret_resp),
+    age2       = age_resp^2,
+    log_inc    = log(pmax(hh_inc, 1))
+  ) |>
+  tidyr::drop_na(own, age_resp, educ_full, labour_cat, hhsize, log_inc)
+
+lpm_full <- lm(own ~ age_resp + age2 + educ_full + labour_cat + hhsize + log_inc,
+               data = eff1_full, weights = facine3)
+
+cat("\nQ3e – Full model (14 raw educ codes), HC1 robust SEs:\n")
+print(lmtest::coeftest(lpm_full, vcov. = sandwich::vcovHC(lpm_full, type = "HC1")))
+
+cat("\nQ3e – Grouped model (8 categories), HC1 robust SEs:\n")
+print(lmtest::coeftest(lpm_main, vcov. = sandwich::vcovHC(lpm_main, type = "HC1")))
+
+cat(sprintf("\n  R2: full = %.4f | grouped = %.4f\n",
+            summary(lpm_full)$r.squared,
+            summary(lpm_main)$r.squared))
+
+# Combined coef_map covering all coefficients from both models
+coef_map_q3e <- c(
+  "(Intercept)"             = "Intercept",
+  "age_resp"                = "Age",
+  "age2"                    = "Age$^2$",
+  "educ_full2"              = "\\hspace{6pt} Primary",
+  "educ_full3"              = "\\hspace{6pt} Voc.\\ (< ESO)",
+  "educ_full4"              = "\\hspace{6pt} Lower sec.\\ (ESO)",
+  "educ_full5"              = "\\hspace{6pt} Voc.\\ (ESO)",
+  "educ_full6"              = "\\hspace{6pt} Bachillerato",
+  "educ_full7"              = "\\hspace{6pt} Voc.\\ (Bachillerato)",
+  "educ_full8"              = "\\hspace{6pt} Post-sec.\\ vocational",
+  "educ_full9"              = "\\hspace{6pt} Post-sec.\\ (2+ yr)",
+  "educ_full11"             = "\\hspace{6pt} Master",
+  "educ_full12"             = "\\hspace{6pt} PhD",
+  "educ_full97"             = "\\hspace{6pt} Other (raw)",
+  "educ_full1001"           = "\\hspace{6pt} Diplomado",
+  "educ_full1002"           = "\\hspace{6pt} Licenciado",
+  "educ_cat2_Primary"       = "\\hspace{6pt} Primary [grouped]",
+  "educ_cat3_Lower_sec"     = "\\hspace{6pt} Lower secondary [grouped]",
+  "educ_cat4_Vocational"    = "\\hspace{6pt} Vocational [grouped]",
+  "educ_cat5_Upper_sec"     = "\\hspace{6pt} Upper secondary [grouped]",
+  "educ_cat6_Post_sec"      = "\\hspace{6pt} Post-secondary [grouped]",
+  "educ_cat7_University"    = "\\hspace{6pt} University [grouped]",
+  "educ_cat8_Other"         = "\\hspace{6pt} Other [grouped]",
+  "labour_catSelf_employed" = "\\hspace{6pt} Self-employed",
+  "labour_catUnemployed"    = "\\hspace{6pt} Unemployed",
+  "labour_catRetired"       = "\\hspace{6pt} Retired",
+  "labour_catInactive"      = "\\hspace{6pt} Inactive",
+  "hhsize"                  = "Household size",
+  "log_inc"                 = "Log income"
+)
+
+tbl_compare <- modelsummary::modelsummary(
+  list("Full (14 raw codes)" = lpm_full,
+       "Grouped (8 categories)" = lpm_main),
+  coef_map  = coef_map_q3e,
+  vcov      = "HC1",
+  stars     = c("*" = 0.10, "**" = 0.05, "***" = 0.01),
+  fmt       = "%.3f",
+  output    = "latex",
+  booktabs  = TRUE,
+  title     = "Weighted LPM: main-residence ownership --- full vs grouped education (EFF 2017, imp~=~1)",
+  label     = "tab:educ_compare",
+  gof_map   = list(
+    list(raw = "nobs",      clean = "$N$",   fmt = "%d"),
+    list(raw = "r.squared", clean = "$R^2$", fmt = "%.4f")
+  ),
+  escape = FALSE
+) |>
+  kableExtra::pack_rows("\\textit{Education (ref.: Illiterate)}",   4, 23,
+                        bold = FALSE, italic = FALSE, escape = FALSE,
+                        latex_gap_space = "0.3em") |>
+  kableExtra::pack_rows("\\textit{Labour status (ref.: Employed)}", 24, 27,
+                        bold = FALSE, italic = FALSE, escape = FALSE,
+                        latex_gap_space = "0.3em") |>
+  kableExtra::footnote(
+    general = paste0(
+      "HC1 robust SEs in parentheses. Survey weights (\\\\texttt{facine3}) applied. ",
+      "Full model: 14 raw \\\\texttt{educ\\_resp} dummies (ref.\\ = Illiterate). ",
+      "Grouped model: 8 broader categories. ",
+      "Mean HC1 SE on education dummies --- full: 0.079, grouped: 0.078. ",
+      "$R^2$ virtually identical (0.2196 vs 0.2185)."
+    ),
+    symbol        = c("$p<0.10$", "$p<0.05$", "$p<0.01$"),
+    escape        = FALSE,
+    general_title = "\\\\textit{Notes:} ",
+    symbol_title  = "Significance: "
+  )
+
+writeLines(tbl_compare, file.path(TAB_DIR, "Q3e_educ_comparison.tex"))
+cat("  Table saved: Q3e_educ_comparison.tex\n")
+
+# -- Full model standalone table ----------------------------------------------
+coef_map_full_only <- c(
+  "(Intercept)"             = "Intercept",
+  "age_resp"                = "Age",
+  "age2"                    = "Age$^2$",
+  "educ_full2"              = "\\hspace{6pt} Primary",
+  "educ_full3"              = "\\hspace{6pt} Voc.\\ (< ESO)",
+  "educ_full4"              = "\\hspace{6pt} Lower sec.\\ (ESO)",
+  "educ_full5"              = "\\hspace{6pt} Voc.\\ (ESO)",
+  "educ_full6"              = "\\hspace{6pt} Bachillerato",
+  "educ_full7"              = "\\hspace{6pt} Voc.\\ (Bachillerato)",
+  "educ_full8"              = "\\hspace{6pt} Post-sec.\\ vocational",
+  "educ_full9"              = "\\hspace{6pt} Post-sec.\\ (2+ yr)",
+  "educ_full11"             = "\\hspace{6pt} Master",
+  "educ_full12"             = "\\hspace{6pt} PhD",
+  "educ_full97"             = "\\hspace{6pt} Other",
+  "educ_full1001"           = "\\hspace{6pt} Diplomado",
+  "educ_full1002"           = "\\hspace{6pt} Licenciado",
+  "labour_catSelf_employed" = "\\hspace{6pt} Self-employed",
+  "labour_catUnemployed"    = "\\hspace{6pt} Unemployed",
+  "labour_catRetired"       = "\\hspace{6pt} Retired",
+  "labour_catInactive"      = "\\hspace{6pt} Inactive",
+  "hhsize"                  = "Household size",
+  "log_inc"                 = "Log income"
+)
+
+tbl_full <- modelsummary::modelsummary(
+  list("Main residence (full education spec.)" = lpm_full),
+  coef_map  = coef_map_full_only,
+  vcov      = "HC1",
+  stars     = c("*" = 0.10, "**" = 0.05, "***" = 0.01),
+  fmt       = "%.3f",
+  output    = "latex",
+  booktabs  = TRUE,
+  title     = "Weighted LPM: main-residence ownership, full education specification (EFF 2017, imp~=~1)",
+  label     = "tab:lpm_full_educ",
+  gof_map   = list(
+    list(raw = "nobs",      clean = "$N$",   fmt = "%d"),
+    list(raw = "r.squared", clean = "$R^2$", fmt = "%.4f")
+  ),
+  escape = FALSE
+) |>
+  kableExtra::pack_rows("\\textit{Education (ref.: Illiterate)}",   7, 34,
+                        bold = FALSE, italic = FALSE, escape = FALSE,
+                        latex_gap_space = "0.3em") |>
+  kableExtra::pack_rows("\\textit{Labour status (ref.: Employed)}", 35, 42,
+                        bold = FALSE, italic = FALSE, escape = FALSE,
+                        latex_gap_space = "0.3em") |>
+  kableExtra::footnote(
+    general = paste0(
+      "HC1 robust SEs in parentheses. Survey weights (\\\\texttt{facine3}) applied. ",
+      "All 14 raw \\\\texttt{educ\\_resp} codes included as dummies (ref.\\ = Illiterate, code 1). ",
+      "Log income $= \\\\ln(\\\\max(\\\\text{hh\\\\_inc},\\\\,1))$."
+    ),
+    symbol        = c("$p<0.10$", "$p<0.05$", "$p<0.01$"),
+    escape        = FALSE,
+    general_title = "\\\\textit{Notes:} ",
+    symbol_title  = "Significance: "
+  )
+
+writeLines(tbl_full, file.path(TAB_DIR, "Q3e_lpm_full_educ.tex"))
+cat("  Table saved: Q3e_lpm_full_educ.tex\n")
