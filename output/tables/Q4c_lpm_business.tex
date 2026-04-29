@@ -1,0 +1,41 @@
+\begin{table}
+
+\caption{Weighted LPM: business ownership (EFF 2017, imp~=~1)}
+\centering
+\begin{tabular}[t]{lc}
+\toprule
+  & Business ownership\\
+\midrule
+Intercept & \num{-0.0428}\\
+ & (\num{0.0553})\\
+Education proxy ($\hat{p} \times \mathbb{1}_{\text{high-educ}}$) & \num{0.0433}**\\
+ & (\num{0.0192})\\
+Age & \num{0.0012}\\
+ & (\num{0.0019})\\
+Age$^2$ & \num{-0.0000}\\
+ & (\num{0.0000})\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\textit{Labour status (ref.: Employed)}}\\
+\hspace{1em}Self-employed & \num{0.7247}***\\
+\hspace{1em} & (\num{0.0264})\\
+\hspace{1em}Unemployed & \num{-0.0004}\\
+\hspace{1em} & (\num{0.0156})\\
+\hspace{1em}Retired & \num{0.0098}\\
+\hspace{1em} & (\num{0.0146})\\
+\hspace{1em}Inactive & \num{0.0201}\\
+\hspace{1em} & (\num{0.0167})\\
+Household size & \num{0.0254}***\\
+ & (\num{0.0047})\\
+\midrule
+$N$ & \num{6413}\\
+$R^2$ & \num{0.4732}\\
+\bottomrule
+\multicolumn{2}{l}{\rule{0pt}{1em}\textit{\textit{Notes:} }}\\
+\multicolumn{2}{l}{\rule{0pt}{1em}HC1 robust standard errors in parentheses. Survey weights (\texttt{facine3}) applied. Proxy $= \hat{p}(\text{2nd lang} \mid \text{educ}) \times \mathbb{1}(\text{college+})$.}\\
+\multicolumn{2}{l}{\rule{0pt}{1em}\textit{Significance: }}\\
+\multicolumn{2}{l}{\rule{0pt}{1em}\textsuperscript{*} $p<0.10$}\\
+\multicolumn{2}{l}{\rule{0pt}{1em}\textsuperscript{\dag} $p<0.05$}\\
+\multicolumn{2}{l}{\rule{0pt}{1em}\textsuperscript{\ddag} $p<0.01$}\\
+\multicolumn{2}{l}{\rule{0pt}{1em}* p $<$ 0.1, ** p $<$ 0.05, *** p $<$ 0.01}\\
+\end{tabular}
+\end{table}

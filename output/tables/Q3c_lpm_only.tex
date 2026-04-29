@@ -1,0 +1,57 @@
+\begin{table}
+
+\caption{Weighted LPM estimates of homeownership (EFF 2017, imp~=~1)}
+\centering
+\begin{tabular}[t]{lcc}
+\toprule
+  & Main residence & Secondary home\\
+\midrule
+Intercept & \num{-0.646}*** & \num{-1.233}***\\
+ & (\num{0.119}) & (\num{0.118})\\
+Age & \num{0.038}*** & \num{0.036}***\\
+ & (\num{0.004}) & (\num{0.004})\\
+Age$^2$ & \num{-0.000}*** & \num{-0.000}***\\
+ & (\num{0.000}) & (\num{0.000})\\
+\addlinespace[0.3em]
+\multicolumn{3}{l}{\textit{Education (ref.: Illiterate)}}\\
+\hspace{1em}\hspace{6pt} Primary & \num{-0.021} & \num{0.179}***\\
+\hspace{1em} & (\num{0.050}) & (\num{0.062})\\
+\hspace{1em}\hspace{6pt} Lower secondary (ESO) & \num{0.051} & \num{0.231}***\\
+\hspace{1em} & (\num{0.054}) & (\num{0.065})\\
+\hspace{1em}\hspace{6pt} Vocational & \num{0.130}** & \num{0.262}***\\
+\hspace{1em} & (\num{0.060}) & (\num{0.073})\\
+\hspace{1em}\hspace{6pt} Upper secondary (Bachillerato) & \num{-0.045} & \num{0.273}***\\
+\hspace{1em} & (\num{0.055}) & (\num{0.065})\\
+\hspace{1em}\hspace{6pt} Post-secondary & \num{0.053} & \num{0.332}***\\
+\hspace{1em} & (\num{0.055}) & (\num{0.067})\\
+\hspace{1em}\hspace{6pt} University & \num{0.077} & \num{0.417}***\\
+\hspace{1em} & (\num{0.053}) & (\num{0.064})\\
+\hspace{1em}\hspace{6pt} Other & \num{-0.463}** & \num{0.113}\\
+\hspace{1em} & (\num{0.216}) & (\num{0.208})\\
+\addlinespace[0.3em]
+\multicolumn{3}{l}{\textit{Labour status (ref.: Employed)}}\\
+\hspace{1em}\hspace{6pt} Self-employed & \num{0.088}*** & \num{0.248}***\\
+\hspace{1em} & (\num{0.033}) & (\num{0.041})\\
+\hspace{1em}\hspace{6pt} Unemployed & \num{-0.128}*** & \num{-0.035}\\
+\hspace{1em} & (\num{0.034}) & (\num{0.035})\\
+\hspace{1em}\hspace{6pt} Retired & \num{0.033} & \num{0.124}***\\
+\hspace{1em} & (\num{0.025}) & (\num{0.034})\\
+\hspace{1em}\hspace{6pt} Inactive & \num{0.031} & \num{0.052}\\
+\hspace{1em} & (\num{0.027}) & (\num{0.033})\\
+Household size & \num{0.034}*** & \num{0.033}***\\
+ & (\num{0.008}) & (\num{0.008})\\
+Log income & \num{0.011}** & \num{0.012}**\\
+ & (\num{0.005}) & (\num{0.005})\\
+\midrule
+$N$ & \num{6413} & \num{6413}\\
+$R^2$ & \num{0.120} & \num{0.133}\\
+\bottomrule
+\multicolumn{3}{l}{\rule{0pt}{1em}\textit{\textit{Notes:} }}\\
+\multicolumn{3}{l}{\rule{0pt}{1em}HC1 robust standard errors in parentheses. Survey weights (\texttt{facine3}) applied. Log income $= \ln(\max(\text{hh\_inc},\,1))$.}\\
+\multicolumn{3}{l}{\rule{0pt}{1em}\textit{Significance: }}\\
+\multicolumn{3}{l}{\rule{0pt}{1em}\textsuperscript{*} $p<0.10$}\\
+\multicolumn{3}{l}{\rule{0pt}{1em}\textsuperscript{\dag} $p<0.05$}\\
+\multicolumn{3}{l}{\rule{0pt}{1em}\textsuperscript{\ddag} $p<0.01$}\\
+\multicolumn{3}{l}{\rule{0pt}{1em}* p $<$ 0.1, ** p $<$ 0.05, *** p $<$ 0.01}\\
+\end{tabular}
+\end{table}

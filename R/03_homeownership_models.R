@@ -99,24 +99,277 @@ print(probit_ot_rse)
 
 # ---- Q3d: Comparison table (LPM main vs LPM secondary) ---------------------
 cat("\nQ3d – Comparison: main vs secondary-home ownership drivers\n")
-comp <- modelsummary::modelsummary(
+
+# Coefficient rename map (raw R name -> clean label)
+coef_map_q3 <- c(
+  "(Intercept)"             = "Intercept",
+  "age_resp"                = "Age",
+  "age2"                    = "Age$^2$",
+  "educ_cat2_Primary"       = "\\hspace{6pt} Primary",
+  "educ_cat3_Lower_sec"     = "\\hspace{6pt} Lower secondary (ESO)",
+  "educ_cat4_Vocational"    = "\\hspace{6pt} Vocational",
+  "educ_cat5_Upper_sec"     = "\\hspace{6pt} Upper secondary (Bachillerato)",
+  "educ_cat6_Post_sec"      = "\\hspace{6pt} Post-secondary",
+  "educ_cat7_University"    = "\\hspace{6pt} University",
+  "educ_cat8_Other"         = "\\hspace{6pt} Other",
+  "labour_catSelf_employed" = "\\hspace{6pt} Self-employed",
+  "labour_catUnemployed"    = "\\hspace{6pt} Unemployed",
+  "labour_catRetired"       = "\\hspace{6pt} Retired",
+  "labour_catInactive"      = "\\hspace{6pt} Inactive",
+  "hhsize"                  = "Household size",
+  "log_inc"                 = "Log income"
+)
+
+# Row group headers (inserted before education block and labour block)
+rows_q3 <- data.frame(
+  term             = c("\\textit{Education (ref.: Illiterate)}",
+                       "\\textit{Labour status (ref.: Employed)}"),
+  `LPM (Main)`     = c("", ""),
+  `Probit (Main)`  = c("", ""),
+  `LPM (Sec.)`     = c("", ""),
+  `Probit (Sec.)`  = c("", ""),
+  check.names = FALSE
+)
+attr(rows_q3, "position") <- c(4, 12)   # after age2, after last educ row
+
+# Use kableExtra factory to get booktabs output
+options(modelsummary_factory_latex = "kableExtra")
+
+tbl_q3 <- modelsummary::modelsummary(
   list(
-    "LPM – Main residence"  = lpm_main,
-    "LPM – Secondary home"  = lpm_ot,
-    "Probit – Main"         = probit_main,
-    "Probit – Secondary"    = probit_ot
+    "LPM (Main)"    = lpm_main,
+    "Probit (Main)" = probit_main,
+    "LPM (Sec.)"    = lpm_ot,
+    "Probit (Sec.)" = probit_ot
   ),
+  coef_map  = coef_map_q3,
   vcov      = "HC1",
   stars     = c("*" = 0.10, "**" = 0.05, "***" = 0.01),
-  output    = file.path(TAB_DIR, "Q3_homeownership_models.tex"),
-  title     = "Homeownership Models — LPM and Probit",
-  gof_map   = c("nobs", "r.squared"),
-  notes     = c(
-    "Survey weights (facine3) applied. HC1 robust SEs in parentheses.",
-    "Reference: educ 2 (Primary), labour: Employed. log income floored at 1."
+  fmt       = "%.3f",
+  output    = "latex",
+  booktabs  = TRUE,
+  title     = "Homeownership models: LPM and probit estimates (EFF 2017, imp~=~1)",
+  label     = "tab:homeownership_models",
+  gof_map   = list(
+    list(raw = "nobs",      clean = "$N$",   fmt = "%d"),
+    list(raw = "r.squared", clean = "$R^2$", fmt = "%.3f")
+  ),
+  escape = FALSE
+) |>
+  # Group rows: education (rows 7-20: 7 categories × 2 display rows each)
+  #              labour   (rows 21-28: 4 categories × 2 display rows each)
+  kableExtra::pack_rows("\\textit{Education (ref.: Illiterate)}",  7,  20,
+                        bold = FALSE, italic = FALSE, escape = FALSE,
+                        latex_gap_space = "0.3em") |>
+  kableExtra::pack_rows("\\textit{Labour status (ref.: Employed)}", 21, 28,
+                        bold = FALSE, italic = FALSE, escape = FALSE,
+                        latex_gap_space = "0.3em") |>
+  kableExtra::add_header_above(
+    c(" " = 1, "Main residence" = 2, "Secondary home" = 2),
+    escape = FALSE, bold = TRUE
+  ) |>
+  kableExtra::footnote(
+    general = paste0(
+      "HC1 robust standard errors in parentheses. ",
+      "Survey weights (\\\\texttt{facine3}) applied. ",
+      "Log income $= \\\\ln(\\\\max(\\\\text{hh\\\\_inc},\\\\,1))$."
+    ),
+    symbol        = c("$p<0.10$", "$p<0.05$", "$p<0.01$"),
+    escape        = FALSE,
+    general_title = "\\\\textit{Notes:} ",
+    symbol_title  = "Significance: "
   )
-)
+
+writeLines(tbl_q3, file.path(TAB_DIR, "Q3_homeownership_models.tex"))
 cat("  Table saved: Q3_homeownership_models.tex\n")
+
+# -- LPM-only table -----------------------------------------------------------
+tbl_lpm <- modelsummary::modelsummary(
+  list(
+    "Main residence" = lpm_main,
+    "Secondary home" = lpm_ot
+  ),
+  coef_map  = coef_map_q3,
+  vcov      = "HC1",
+  stars     = c("*" = 0.10, "**" = 0.05, "***" = 0.01),
+  fmt       = "%.3f",
+  output    = "latex",
+  booktabs  = TRUE,
+  title     = "Weighted LPM estimates of homeownership (EFF 2017, imp~=~1)",
+  label     = "tab:lpm_only",
+  gof_map   = list(
+    list(raw = "nobs",      clean = "$N$",   fmt = "%d"),
+    list(raw = "r.squared", clean = "$R^2$", fmt = "%.3f")
+  ),
+  escape = FALSE
+) |>
+  kableExtra::pack_rows("\\textit{Education (ref.: Illiterate)}",  7,  20,
+                        bold = FALSE, italic = FALSE, escape = FALSE,
+                        latex_gap_space = "0.3em") |>
+  kableExtra::pack_rows("\\textit{Labour status (ref.: Employed)}", 21, 28,
+                        bold = FALSE, italic = FALSE, escape = FALSE,
+                        latex_gap_space = "0.3em") |>
+  kableExtra::footnote(
+    general = paste0(
+      "HC1 robust standard errors in parentheses. ",
+      "Survey weights (\\\\texttt{facine3}) applied. ",
+      "Log income $= \\\\ln(\\\\max(\\\\text{hh\\\\_inc},\\\\,1))$."
+    ),
+    symbol        = c("$p<0.10$", "$p<0.05$", "$p<0.01$"),
+    escape        = FALSE,
+    general_title = "\\\\textit{Notes:} ",
+    symbol_title  = "Significance: "
+  )
+
+writeLines(tbl_lpm, file.path(TAB_DIR, "Q3c_lpm_only.tex"))
+cat("  Table saved: Q3c_lpm_only.tex\n")
+
+# -- Probit-only table --------------------------------------------------------
+# Inject McFadden R² via glance_custom (not available for weighted GLM by default)
+glance_custom.glm <- function(x, ...) {
+  null_mod <- update(x, . ~ 1)
+  mcf <- 1 - as.numeric(logLik(x)) / as.numeric(logLik(null_mod))
+  data.frame(r2.mcfadden = mcf)
+}
+
+tbl_probit <- modelsummary::modelsummary(
+  list(
+    "Main residence" = probit_main,
+    "Secondary home" = probit_ot
+  ),
+  coef_map  = coef_map_q3,
+  vcov      = "HC1",
+  stars     = c("*" = 0.10, "**" = 0.05, "***" = 0.01),
+  fmt       = "%.3f",
+  output    = "latex",
+  booktabs  = TRUE,
+  title     = "Weighted probit estimates of homeownership (EFF 2017, imp~=~1)",
+  label     = "tab:probit_only",
+  gof_map   = list(
+    list(raw = "nobs",        clean = "$N$",               fmt = "%d"),
+    list(raw = "r2.mcfadden", clean = "McFadden $R^2$",    fmt = "%.3f")
+  ),
+  escape = FALSE
+) |>
+  kableExtra::pack_rows("\\textit{Education (ref.: Illiterate)}",  7,  20,
+                        bold = FALSE, italic = FALSE, escape = FALSE,
+                        latex_gap_space = "0.3em") |>
+  kableExtra::pack_rows("\\textit{Labour status (ref.: Employed)}", 21, 28,
+                        bold = FALSE, italic = FALSE, escape = FALSE,
+                        latex_gap_space = "0.3em") |>
+  kableExtra::footnote(
+    general = paste0(
+      "HC1 robust standard errors in parentheses. ",
+      "Survey weights (\\\\texttt{facine3}) applied. ",
+      "Log income $= \\\\ln(\\\\max(\\\\text{hh\\\\_inc},\\\\,1))$. ",
+      "Probit weights normalised by mean(\\\\texttt{facine3})."
+    ),
+    symbol        = c("$p<0.10$", "$p<0.05$", "$p<0.01$"),
+    escape        = FALSE,
+    general_title = "\\\\textit{Notes:} ",
+    symbol_title  = "Significance: "
+  )
+
+writeLines(tbl_probit, file.path(TAB_DIR, "Q3d_probit_only.tex"))
+cat("  Table saved: Q3d_probit_only.tex\n")
+
+# ---- Average Marginal Effects table (probit models) -------------------------
+# AME for continuous vars: mean[ phi(eta) * beta_k ]
+# AME for binary/factor vars: mean[ Phi(eta | var=1) - Phi(eta | var=0) ]
+
+compute_ame_probit <- function(model, data) {
+  eta  <- predict(model, type = "link")
+  pdf  <- dnorm(eta)
+  b    <- coef(model)
+  mm   <- model.matrix(model)
+
+  purrr::map_dfr(colnames(mm)[-1], function(term) {
+    if (!term %in% names(b)) return(NULL)
+    col_vals <- mm[, term]
+    if (length(unique(col_vals)) == 2) {
+      # Binary dummy: exact AME via prediction difference
+      d1 <- d0 <- data
+      # identify the column in data that maps to this model matrix column
+      # For factor levels the column values in mm are 0/1
+      p1 <- pnorm(eta + b[term] * (1 - col_vals))   # counterfactual: all = 1
+      p0 <- pnorm(eta - b[term] * col_vals)          # counterfactual: all = 0
+      ame <- mean(p1 - p0)
+    } else {
+      ame <- mean(pdf * b[term])
+    }
+    dplyr::tibble(term = term, ame = ame)
+  })
+}
+
+ame_main <- compute_ame_probit(probit_main, eff1_m) |>
+  dplyr::rename(ame_main = ame)
+ame_sec  <- compute_ame_probit(probit_ot,   eff1_m) |>
+  dplyr::rename(ame_sec  = ame)
+
+ame_tbl <- dplyr::left_join(ame_main, ame_sec, by = "term") |>
+  dplyr::mutate(
+    Variable = dplyr::recode(term,
+      "age_resp"                = "Age",
+      "age2"                    = "Age$^2$",
+      "educ_cat2_Primary"       = "\\hspace{6pt} Primary",
+      "educ_cat3_Lower_sec"     = "\\hspace{6pt} Lower secondary (ESO)",
+      "educ_cat4_Vocational"    = "\\hspace{6pt} Vocational",
+      "educ_cat5_Upper_sec"     = "\\hspace{6pt} Upper secondary (Bachillerato)",
+      "educ_cat6_Post_sec"      = "\\hspace{6pt} Post-secondary",
+      "educ_cat7_University"    = "\\hspace{6pt} University",
+      "educ_cat8_Other"         = "\\hspace{6pt} Other",
+      "labour_catSelf_employed" = "\\hspace{6pt} Self-employed",
+      "labour_catUnemployed"    = "\\hspace{6pt} Unemployed",
+      "labour_catRetired"       = "\\hspace{6pt} Retired",
+      "labour_catInactive"      = "\\hspace{6pt} Inactive",
+      "hhsize"                  = "Household size",
+      "log_inc"                 = "Log income"
+    ),
+    `Main residence` = formatC(ame_main, format = "f", digits = 4),
+    `Secondary home`  = formatC(ame_sec,  format = "f", digits = 4)
+  ) |>
+  dplyr::select(Variable, `Main residence`, `Secondary home`)
+
+# Insert group header rows
+grp_educ   <- data.frame(Variable = "\\textit{Education (ref.: Illiterate)}",
+                         `Main residence` = "", `Secondary home` = "",
+                         check.names = FALSE)
+grp_labour <- data.frame(Variable = "\\textit{Labour status (ref.: Employed)}",
+                         `Main residence` = "", `Secondary home` = "",
+                         check.names = FALSE)
+# ame_tbl has 15 rows: 1-2 = age/age2, 3-9 = 7 educ cats, 10-13 = 4 labour cats, 14-15 = hhsize/log_inc
+ame_tbl <- dplyr::bind_rows(
+  ame_tbl[1:2, ],
+  grp_educ,
+  ame_tbl[3:9, ],
+  grp_labour,
+  ame_tbl[10:13, ],
+  ame_tbl[14:15, ]
+)
+
+tbl_ame_tex <- kableExtra::kbl(
+  ame_tbl,
+  format    = "latex",
+  booktabs  = TRUE,
+  escape    = FALSE,
+  align     = c("l", "r", "r"),
+  caption   = "Average marginal effects from probit homeownership models (EFF 2017, imp~=~1)",
+  label     = "tab:homeownership_ame"
+) |>
+  kableExtra::kable_styling(latex_options = c("hold_position")) |>
+  kableExtra::footnote(
+    general = paste0(
+      "AME computed as $\\\\overline{\\\\phi(\\\\hat{\\\\eta}_i)\\\\,\\\\hat{\\\\beta}_k}$ ",
+      "for continuous variables and as $\\\\overline{\\\\Phi(\\\\hat{\\\\eta}_i\\\\mid d=1) - ",
+      "\\\\Phi(\\\\hat{\\\\eta}_i\\\\mid d=0)}$ for binary indicators. ",
+      "HC1 robust standard errors not reported here; see Table~\\\\ref{tab:homeownership_models}."
+    ),
+    escape        = FALSE,
+    general_title = "\\\\textit{Notes:} "
+  )
+
+writeLines(tbl_ame_tex, file.path(TAB_DIR, "Q3b_homeownership_ame.tex"))
+cat("  Table saved: Q3b_homeownership_ame.tex\n")
 
 cat("\n  Q3d discussion:
   Secondary-home ownership is rarer and driven more strongly by wealth/income:

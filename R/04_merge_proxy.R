@@ -192,3 +192,93 @@ cat("\n  Interpretation: a one-unit increase in the proxy (i.e., moving from
   probability of business ownership by", round(me_proxy * 100, 2), "pp.
   This is constant across quintiles (LPM); the rising mean predicted probability
   across quintiles reflects the positive wealth-business ownership gradient.\n")
+
+# ---- Q4c: AME by wealth quintile — LaTeX table ------------------------------
+ame_tex <- ame_by_q |>
+  dplyr::mutate(
+    wealth_q    = as.character(wealth_q),
+    me_proxy_pp = me_proxy * 100
+  ) |>
+  dplyr::select(wealth_q, n_hh, avg_pred_pr, me_proxy_pp)
+
+tbl_ame <- kableExtra::kable(
+  ame_tex,
+  col.names = c(
+    "Wealth quintile", "$N$",
+    "Mean $\\hat{P}(\\text{neg}=1)$",
+    "AME of proxy (pp)"
+  ),
+  digits    = c(0, 0, 3, 2),
+  caption   = paste0(
+    "Average marginal effect of the education proxy on business ownership ",
+    "by net wealth quintile (EFF 2017, imp~=~1)"
+  ),
+  label     = "tab:ame_quintile",
+  format    = "latex",
+  booktabs  = TRUE,
+  escape    = FALSE,
+  align     = "crrr"
+) |>
+  kableExtra::footnote(
+    general = paste0(
+      "In a linear probability model the marginal effect equals the coefficient ",
+      "and is constant across subgroups. ",
+      "The AME of the proxy is \\\\num{", round(me_proxy * 100, 2), "} pp in every quintile. ",
+      "Survey weights (\\\\texttt{facine3}) applied; HC1 robust SEs used for the LPM."
+    ),
+    escape        = FALSE,
+    general_title = "\\\\textit{Notes:} "
+  )
+
+writeLines(tbl_ame, file.path(TAB_DIR, "Q4c_ame_by_quintile.tex"))
+cat("  Table saved: Q4c_ame_by_quintile.tex\n")
+
+# ---- Q4c: LaTeX table for Overleaf ------------------------------------------
+coef_map_q4 <- c(
+  "(Intercept)"             = "Intercept",
+  "proxy"                   = "Education proxy ($\\hat{p} \\times \\mathbb{1}_{\\text{high-educ}}$)",
+  "age_resp"                = "Age",
+  "age2"                    = "Age$^2$",
+  "labour_catSelf_employed" = "Self-employed",
+  "labour_catUnemployed"    = "Unemployed",
+  "labour_catRetired"       = "Retired",
+  "labour_catInactive"      = "Inactive",
+  "hhsize"                  = "Household size"
+)
+
+options(modelsummary_factory_latex = "kableExtra")
+
+tbl_lpm_neg <- modelsummary::modelsummary(
+  list("Business ownership" = lpm_neg),
+  coef_map  = coef_map_q4,
+  vcov      = "HC1",
+  stars     = c("*" = 0.10, "**" = 0.05, "***" = 0.01),
+  fmt       = "%.4f",
+  output    = "latex",
+  booktabs  = TRUE,
+  title     = "Weighted LPM: business ownership (EFF 2017, imp~=~1)",
+  label     = "tab:lpm_business",
+  gof_map   = list(
+    list(raw = "nobs",      clean = "$N$",   fmt = "%d"),
+    list(raw = "r.squared", clean = "$R^2$", fmt = "%.4f")
+  ),
+  escape = FALSE
+) |>
+  kableExtra::pack_rows("\\textit{Labour status (ref.: Employed)}", 9, 16,
+                        bold = FALSE, italic = FALSE, escape = FALSE,
+                        latex_gap_space = "0.3em") |>
+  kableExtra::footnote(
+    general = paste0(
+      "HC1 robust standard errors in parentheses. ",
+      "Survey weights (\\\\texttt{facine3}) applied. ",
+      "Proxy $= \\\\hat{p}(\\\\text{2nd lang} \\\\mid \\\\text{educ}) \\\\times ",
+      "\\\\mathbb{1}(\\\\text{college+})$."
+    ),
+    symbol        = c("$p<0.10$", "$p<0.05$", "$p<0.01$"),
+    escape        = FALSE,
+    general_title = "\\\\textit{Notes:} ",
+    symbol_title  = "Significance: "
+  )
+
+writeLines(tbl_lpm_neg, file.path(TAB_DIR, "Q4c_lpm_business.tex"))
+cat("  Table saved: Q4c_lpm_business.tex\n")
