@@ -1,18 +1,20 @@
-\begin{table}
+\begin{table}[!h]
 
-\caption{Q5b – Weighted statistics by property-ownership group}
+\caption{\label{tab:group_comparison}Weighted statistics by property-ownership group (EFF 2017, imp~=~1)}
 \centering
 \begin{tabular}[t]{llrrr}
 \toprule
 Group & Variable & W. Mean & W. Median & W. P75\\
 \midrule
-One property & Debt-to-net-wealth ratio & 1.5611 & 0.0315 & 0.5511\\
-One property & Financial wealth share & 0.0865 & 0.0555 & 0.2039\\
-Multiple properties & Debt-to-net-wealth ratio & 0.5038 & 0.0030 & 0.1752\\
-Multiple properties & Financial wealth share & 0.1400 & 0.0987 & 0.2429\\
+One property & Debt-to-net-wealth ratio & 1.6280 & 0.0315 & 0.5343\\
+One property & Financial wealth share & 0.1003 & 0.0638 & 0.2176\\
+Multiple properties & Debt-to-net-wealth ratio & 0.3127 & 0.0021 & 0.1548\\
+Multiple properties & Financial wealth share & 0.1332 & 0.0935 & 0.2299\\
 Renter & Debt-to-net-wealth ratio & 0.3512 & 0.0000 & 0.0000\\
 \addlinespace
 Renter & Financial wealth share & 0.8559 & 1.0000 & 1.0000\\
 \bottomrule
+\multicolumn{5}{l}{\rule{0pt}{1em}\textit{Notes: }}\\
+\multicolumn{5}{l}{\rule{0pt}{1em}Groups are mutually exclusive and exhaustive: "One property" $=$ owns exactly one of \{main residence, other real estate\}; "Multiple properties" $=$ owns both (\texttt{own} $=1$ and \texttt{own\_ot} $=1$); "Renter" $=$ owns no real estate. Debt and financial wealth ratios exclude households with $\mathit{totnet} \leq 0$. All statistics survey-weighted using \texttt{facine3}.}\\
 \end{tabular}
 \end{table}

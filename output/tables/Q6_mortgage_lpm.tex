@@ -1,60 +1,57 @@
-\begin{table}
+\begin{table}[!h]
+
+\caption{Mortgage Holder --- Weighted LPM (Three Specifications, EFF 2017, imp~=~1)}
 \centering
-\begin{talltblr}[         %% tabularray outer open
-caption={Mortgage Holder — Weighted LPM (Three Specifications)},
-note{}={* p \num{< 0.1}, ** p \num{< 0.05}, *** p \num{< 0.01}},
-note{ }={Sample: homeowners (\textbackslash{}texttt\{own\} = 1) from EFF 2017 (imp = 1).},
-note{  }={Survey weights (\textbackslash{}textit\{facine3\}) applied throughout.},
-note{   }={Robust standard errors (HC1) in parentheses.},
-note{    }={Reference: educ\textbackslash{}\_cat = 2\textbackslash{}\_Primary; wealth\textbackslash{}\_q = Q1.},
-note{     }={\$\textasciicircum{}\{*\}p<0.10\$; \$\textasciicircum{}\{**\}p<0.05\$; \$\textasciicircum{}\{***\}p<0.01\$.},
-]                     %% tabularray outer close
-{                     %% tabularray inner open
-colspec={Q[]Q[]Q[]Q[]},
-column{2,3,4}={}{halign=c,},
-column{1}={}{halign=l,},
-hline{38}={1,2,3,4}{solid, black, 0.05em},
-}                     %% tabularray inner close
+\begin{tabular}[t]{lccc}
 \toprule
-& (1) Baseline & (2) + Wealth Quintile & (3) + Interaction \\ \midrule %% TinyTableHeader
-(Intercept) & \num{1.3197}*** & \num{1.1563}*** & \num{1.1560}*** \\
-& (\num{0.1560}) & (\num{0.1630}) & (\num{0.1630}) \\
-non\_emp\_rate & \num{-0.2593}*** & \num{-0.2654}*** & \num{-0.2647}*** \\
-& (\num{0.0354}) & (\num{0.0350}) & (\num{0.0353}) \\
-fin\_share & \num{0.0179}* & \num{0.0275}*** & \num{0.0293}*** \\
-& (\num{0.0104}) & (\num{0.0097}) & (\num{0.0113}) \\
-age\_resp & \num{-0.0202}*** & \num{-0.0146}*** & \num{-0.0146}*** \\
-& (\num{0.0050}) & (\num{0.0052}) & (\num{0.0052}) \\
-age2 & \num{0.0001}** & \num{0.0000} & \num{0.0000} \\
-& (\num{0.0000}) & (\num{0.0000}) & (\num{0.0000}) \\
-educ\_cat2\_Primary & \num{0.0054} & \num{0.0338} & \num{0.0340} \\
-& (\num{0.0240}) & (\num{0.0266}) & (\num{0.0266}) \\
-educ\_cat3\_Lower\_sec & \num{0.0245} & \num{0.0711}** & \num{0.0715}** \\
-& (\num{0.0334}) & (\num{0.0338}) & (\num{0.0339}) \\
-educ\_cat4\_Vocational & \num{0.0536} & \num{0.1035}** & \num{0.1039}** \\
-& (\num{0.0467}) & (\num{0.0481}) & (\num{0.0481}) \\
-educ\_cat5\_Upper\_sec & \num{0.0825}** & \num{0.1414}*** & \num{0.1418}*** \\
-& (\num{0.0347}) & (\num{0.0375}) & (\num{0.0376}) \\
-educ\_cat6\_Post\_sec & \num{0.0794}** & \num{0.1403}*** & \num{0.1407}*** \\
-& (\num{0.0387}) & (\num{0.0407}) & (\num{0.0407}) \\
-educ\_cat7\_University & \num{0.1487}*** & \num{0.2237}*** & \num{0.2240}*** \\
-& (\num{0.0317}) & (\num{0.0367}) & (\num{0.0367}) \\
-educ\_cat8\_Other & \num{0.5160}*** & \num{0.6055}*** & \num{0.6055}*** \\
-& (\num{0.0784}) & (\num{0.0831}) & (\num{0.0831}) \\
-hhsize & \num{0.0256}** & \num{0.0324}*** & \num{0.0323}*** \\
-& (\num{0.0102}) & (\num{0.0106}) & (\num{0.0106}) \\
-wealth\_qQ2 &  & \num{-0.0680}** & \num{-0.0679}** \\
-&  & (\num{0.0288}) & (\num{0.0288}) \\
-wealth\_qQ3 &  & \num{-0.1175}*** & \num{-0.1174}*** \\
-&  & (\num{0.0280}) & (\num{0.0280}) \\
-wealth\_qQ4 &  & \num{-0.1641}*** & \num{-0.1639}*** \\
-&  & (\num{0.0341}) & (\num{0.0341}) \\
-wealth\_qQ5 &  & \num{-0.1538}*** & \num{-0.1535}*** \\
-&  & (\num{0.0333}) & (\num{0.0335}) \\
-non\_emp\_rate × fin\_share &  &  & \num{-0.0069} \\
-&  &  & (\num{0.0228}) \\
-N & \num{5168} & \num{5168} & \num{5168} \\
-\$R\textasciicircum{}2\$ & \num{0.341} & \num{0.353} & \num{0.353} \\
+  & (1) Baseline & (2) + Wealth Quintile & (3) + Interaction\\
+\midrule
+Intercept & 1.2700*** & 1.1112*** & 1.1113***\\
+ & (0.1483) & (0.1578) & (0.1578)\\
+Non-employment rate & -0.2417*** & -0.2474*** & -0.2468***\\
+ & (0.0338) & (0.0336) & (0.0338)\\
+Financial wealth share & 0.0152 & 0.0220** & 0.0236**\\
+ & (0.0097) & (0.0092) & (0.0113)\\
+Age & -0.0192*** & -0.0139*** & -0.0139***\\
+ & (0.0048) & (0.0050) & (0.0050)\\
+Age$^2$ & 7.04e-05* & 3.68e-05 & 3.69e-05\\
+ & (3.73e-05) & (3.87e-05) & (3.87e-05)\\
+\addlinespace[0.3em]
+\multicolumn{4}{l}{\textit{Education (ref.: Illiterate)}}\\
+\hspace{6pt} Primary & 0.0089 & 0.0314 & 0.0317\\
+ & (0.0239) & (0.0261) & (0.0261)\\
+\hspace{6pt} Lower secondary (ESO) & 0.0226 & 0.0608* & 0.0612*\\
+ & (0.0326) & (0.0330) & (0.0330)\\
+\hspace{6pt} Vocational & 0.0599 & 0.1016** & 0.1020**\\
+ & (0.0458) & (0.0469) & (0.0469)\\
+\hspace{6pt} Upper secondary (Bachillerato) & 0.0943*** & 0.1412*** & 0.1416***\\
+ & (0.0335) & (0.0359) & (0.0359)\\
+\hspace{6pt} Post-secondary & 0.0655* & 0.1133*** & 0.1136***\\
+ & (0.0380) & (0.0401) & (0.0402)\\
+\hspace{6pt} University & 0.1505*** & 0.2150*** & 0.2153***\\
+ & (0.0306) & (0.0350) & (0.0350)\\
+\hspace{6pt} Other & 0.5243*** & 0.6071*** & 0.6072***\\
+ & (0.0792) & (0.0830) & (0.0831)\\
+Household size & 0.0263*** & 0.0325*** & 0.0324***\\
+ & (0.0097) & (0.0101) & (0.0101)\\
+\addlinespace[0.3em]
+\multicolumn{4}{l}{\textit{Wealth quintile (ref.: Q1)}}\\
+\hspace{6pt} Q2 &  & -0.0434 & -0.0434\\
+ &  & (0.0285) & (0.0285)\\
+\hspace{6pt} Q3 &  & -0.0978*** & -0.0978***\\
+ &  & (0.0279) & (0.0279)\\
+\hspace{6pt} Q4 &  & -0.1236*** & -0.1236***\\
+ &  & (0.0332) & (0.0333)\\
+\hspace{6pt} Q5 (richest) &  & -0.1339*** & -0.1337***\\
+ &  & (0.0325) & (0.0325)\\
+Non-employment rate $\times$ Fin.\ wealth share &  &  & -0.0058\\
+ &  &  & (0.0214)\\
+\midrule
+N & 5501 & 5501 & 5501\\
+$R^2$ & 0.329 & 0.337 & 0.337\\
 \bottomrule
-\end{talltblr}
+\multicolumn{4}{l}{\rule{0pt}{1em}\textit{Notes: }}\\
+\multicolumn{4}{l}{\rule{0pt}{1em}HC1 robust SEs in parentheses. Survey weights (\texttt{facine3}) applied. Sample: real-estate owners (\texttt{own} = 1 or \texttt{own\_ot} = 1). Wealth quintiles computed within the real-estate-owner sample.}\\
+\multicolumn{4}{l}{\rule{0pt}{1em}* p $<$ 0.1, ** p $<$ 0.05, *** p $<$ 0.01}\\
+\end{tabular}
 \end{table}

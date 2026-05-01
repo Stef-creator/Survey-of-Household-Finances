@@ -17,7 +17,8 @@ required_packages <- c(
   "lmtest",        # coefficient tests with robust SEs (coeftest)
   "modelsummary",  # publication-quality regression tables
   "kableExtra",    # LaTeX / HTML table formatting
-  "broom"          # tidy() and glance() for model objects
+  "broom",         # tidy() and glance() for model objects
+  "car"            # variance inflation factors (vif)
 )
 
 to_install <- required_packages[
@@ -29,6 +30,24 @@ if (length(to_install) > 0) {
 }
 
 invisible(lapply(required_packages, library, character.only = TRUE))
+
+# ---- modelsummary / kableExtra global options -------------------------------
+# Drop \num{} wrapping so tables render without requiring \usepackage{siunitx}.
+options(modelsummary_format_numeric_latex = "plain")
+
+# fmt_smart(): fixed-decimal formatter that falls back to scientific notation
+# for non-zero values that would otherwise round to 0 (e.g. age^2 coefficients
+# of order 1e-4 displayed with 3 decimals).
+fmt_smart <- function(digits = 3, sci_digits = 2) {
+  function(x) {
+    out <- formatC(x, format = "f", digits = digits)
+    bad <- !is.na(x) & x != 0 & abs(x) < 5 * 10^(-digits)
+    if (any(bad)) {
+      out[bad] <- formatC(x[bad], format = "e", digits = sci_digits)
+    }
+    out
+  }
+}
 
 # ---- 2. Output directories --------------------------------------------------
 DATA_DIR <- "toshare"
@@ -152,3 +171,27 @@ compute_non_emp_rate <- function(df) {
 }
 
 message("Setup complete.")
+
+# ---- 6. Helper to insert italic group headers above coefficient blocks ------
+# `groups` is a named list "Header" = c("first_var", "last_var") referring to
+# entries in `coef_map` (raw R names). Two display rows per coefficient
+# (estimate + SE) are assumed, which matches modelsummary's default output.
+# Headers are added bottom-up so earlier insertions don't shift later indices.
+add_ref_groups <- function(tbl, coef_map, groups) {
+  positions <- lapply(groups, function(vars) {
+    pos_first <- which(names(coef_map) == vars[1])
+    pos_last  <- which(names(coef_map) == vars[2])
+    c(start = (pos_first - 1) * 2 + 1, end = pos_last * 2)
+  })
+  ord <- order(vapply(positions, `[`, numeric(1), 1), decreasing = TRUE)
+  for (i in ord) {
+    p <- positions[[i]]
+    tbl <- kableExtra::pack_rows(
+      tbl, names(groups)[i], p["start"], p["end"],
+      bold = FALSE, italic = TRUE, escape = FALSE,
+      indent = FALSE,
+      latex_gap_space = "0.3em"
+    )
+  }
+  tbl
+}

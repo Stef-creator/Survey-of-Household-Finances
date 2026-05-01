@@ -1,0 +1,47 @@
+\begin{table}
+
+\caption{Weighted LPM (baseline): business ownership (EFF 2017, imp~=~1)}
+\centering
+\begin{tabular}[t]{lc}
+\toprule
+  & Business ownership\\
+\midrule
+Intercept & 0.0780\\
+ & (0.0557)\\
+Age & -0.0041**\\
+ & (0.0019)\\
+Age$^2$ & 2.09e-05\\
+ & (1.49e-05)\\
+Education proxy & -0.0061\\
+ & (0.0183)\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\textit{Wealth quintile (ref.: Q1)}}\\
+\hspace{6pt} Q2 & 0.0660***\\
+ & (0.0141)\\
+\hspace{6pt} Q3 & 0.0560***\\
+ & (0.0121)\\
+\hspace{6pt} Q4 & 0.1013***\\
+ & (0.0155)\\
+\hspace{6pt} Q5 & 0.1526***\\
+ & (0.0197)\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\textit{Labour status (ref.: Employed)}}\\
+\hspace{6pt} Self-employed & 0.6957***\\
+ & (0.0271)\\
+\hspace{6pt} Unemployed & 0.0110\\
+ & (0.0156)\\
+\hspace{6pt} Retired & -0.0038\\
+ & (0.0148)\\
+\hspace{6pt} Inactive & 0.0201\\
+ & (0.0168)\\
+Household size & 0.0201***\\
+ & (0.0045)\\
+\midrule
+$N$ & 6413\\
+$R^2$ & 0.4916\\
+\bottomrule
+\multicolumn{2}{l}{\rule{0pt}{1em}\textit{Notes: }}\\
+\multicolumn{2}{l}{\rule{0pt}{1em}HC1 robust standard errors in parentheses. Survey weights (\texttt{facine3}) applied. Proxy $= \hat{p}(\text{2nd lang} \mid \text{educ}) \times \mathbb{1}(\text{college+})$. No proxy $\times$ wealth quintile interactions.}\\
+\multicolumn{2}{l}{\rule{0pt}{1em}* p $<$ 0.1, ** p $<$ 0.05, *** p $<$ 0.01}\\
+\end{tabular}
+\end{table}

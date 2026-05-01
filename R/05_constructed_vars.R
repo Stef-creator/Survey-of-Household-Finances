@@ -83,44 +83,52 @@ options(modelsummary_factory_latex = "kableExtra")
 tbl_dist <- kableExtra::kable(
   dist_tbl,
   col.names = c("Statistic",
-                "Debt-to-net-wealth ratio ($\\mathit{deud}/\\mathit{totnet}$)",
-                "Financial wealth share ($\\mathit{finet}/\\mathit{totnet}$)",
-                "Non-employment rate"),
+                "Debt ratio",
+                "Fin.\\ wealth share",
+                "Non-emp.\\ rate"),
   caption   = "Survey-weighted distribution of constructed variables (EFF 2017, imp~=~1)",
-  label     = "tab:dist_constructed",
+  label     = "dist_constructed",
   format    = "latex",
   booktabs  = TRUE,
   escape    = FALSE,
   align     = "lccc"
 ) |>
+  kableExtra::kable_styling(latex_options = c("hold_position")) |>
   kableExtra::footnote(
     general = paste0(
-      "Debt and financial wealth ratios exclude households with $\\\\mathit{totnet} \\\\leq 0$ ($n = ",
-      n_excl_debt, "$). ",
-      "Non-employment rate = share of household members not employed or self-employed; ",
-      "member 10 not recorded in EFF for 2 households. ",
+      "Debt ratio $= \\\\mathit{deud}/\\\\mathit{totnet}$; ",
+      "financial wealth share $= \\\\mathit{finet}/\\\\mathit{totnet}$; ",
+      "both exclude households with $\\\\mathit{totnet} \\\\leq 0$ ($n = ", n_excl_debt, "$). ",
+      "Non-employment rate $=$ share of household members not employed or self-employed. ",
       "All statistics survey-weighted using \\\\texttt{facine3}."
     ),
     escape        = FALSE,
-    general_title = "\\\\textit{Notes:} "
+    general_title = "Notes: ",
+    threeparttable = FALSE
   )
 
 writeLines(tbl_dist, file.path(TAB_DIR, "Q5a_dist_constructed.tex"))
 cat("  Table saved: Q5a_dist_constructed.tex\n")
 
 # ---- Q5b: Group comparison --------------------------------------------------
-# Groups (mutually exclusive, exhaustive):
-#   "One property"  : own == 1 & own_ot == 0  (main residence only)
-#   "Multiple props": own_ot == 1             (any additional RE, implies 2+)
-#   "Renter"        : all others (own == 0 & own_ot == 0, or own==0 & own_ot==1)
-# Note: own_ot == 1 & own == 0 (secondary owner without main) is classified as
-#       "Multiple props" since they own real estate but are not main-res. owners.
+# Groups (mutually exclusive, exhaustive) following the assignment definition
+# of "exactly one property" / "more than one property" / "renters":
+#   "One property"        : owns exactly one type of real estate, either
+#                            main residence only OR additional only
+#                            (own == 1 & own_ot == 0) | (own == 0 & own_ot == 1)
+#   "Multiple properties" : owns both main residence AND additional RE
+#                            (own == 1 & own_ot == 1)
+#   "Renter"              : owns no real estate
+#                            (own == 0 & own_ot == 0)
+# Note: own_ot is binary in the EFF, so we cannot distinguish 2 vs many
+# additional properties; the classification therefore relies on owning at
+# least one of each kind to count as "multiple".
 
 eff1_c <- eff1_c |>
   dplyr::mutate(
     prop_group = dplyr::case_when(
-      own == 1 & own_ot == 0 ~ "One property",
-      own_ot == 1            ~ "Multiple properties",
+      own == 1 & own_ot == 1 ~ "Multiple properties",
+      own == 1 | own_ot == 1 ~ "One property",
       TRUE                   ~ "Renter"
     ) |> factor(levels = c("One property", "Multiple properties", "Renter"))
   )
@@ -151,13 +159,30 @@ print(group_stats |> dplyr::mutate(dplyr::across(where(is.numeric), ~ round(.x, 
       n = Inf)
 
 # Save as LaTeX table
-kableExtra::kable(
+tbl_group <- kableExtra::kable(
   group_stats |> dplyr::mutate(dplyr::across(where(is.numeric), ~ round(.x, 4))),
   col.names = c("Group", "Variable", "W. Mean", "W. Median", "W. P75"),
-  caption   = "Q5b – Weighted statistics by property-ownership group",
-  format    = "latex", booktabs = TRUE
+  caption   = "Weighted statistics by property-ownership group (EFF 2017, imp~=~1)",
+  label     = "group_comparison",
+  format    = "latex",
+  booktabs  = TRUE,
+  escape    = FALSE
 ) |>
-  kableExtra::save_kable(file.path(TAB_DIR, "Q5b_group_comparison.tex"))
+  kableExtra::kable_styling(latex_options = c("hold_position")) |>
+  kableExtra::footnote(
+    general = paste0(
+      "Groups are mutually exclusive and exhaustive: \"One property\" $=$ owns exactly one of \\\\{main residence, other real estate\\\\}; ",
+      "\"Multiple properties\" $=$ owns both (\\\\texttt{own} $=1$ and \\\\texttt{own\\\\_ot} $=1$); ",
+      "\"Renter\" $=$ owns no real estate. ",
+      "Debt and financial wealth ratios exclude households with $\\\\mathit{totnet} \\\\leq 0$. ",
+      "All statistics survey-weighted using \\\\texttt{facine3}."
+    ),
+    escape        = FALSE,
+    general_title = "Notes: ",
+    threeparttable = FALSE
+  )
+
+writeLines(tbl_group, file.path(TAB_DIR, "Q5b_group_comparison.tex"))
 cat("  Table saved: Q5b_group_comparison.tex\n")
 
 # ---- Q5c: Weighted Pearson correlation: non_emp_rate vs debt_ratio ----------
@@ -197,21 +222,25 @@ if (p_val < 0.05 && r_weighted > 0) {
 # ---- Q5d: Fraction combining high debt AND high non-employment --------------
 # "High debt": debt_ratio > 75th weighted percentile (computed on valid obs)
 # "High non-employment": non_emp_rate > 0.50
+# Report both the weighted (design-consistent population share) and the
+# unweighted (raw sample share) for transparency.
 
 p75_debt <- wt_quantile(eff1_corr$debt_ratio, eff1_corr$facine3, 0.75)
 
 cat(sprintf("\nQ5d – 75th weighted percentile of debt_ratio: %.4f\n", p75_debt))
 
-frac_both <- eff1_corr |>
-  dplyr::summarise(
-    fraction = wt_mean(
-      as.integer(debt_ratio > p75_debt & non_emp_rate > 0.5),
-      facine3
-    )
-  ) |>
-  dplyr::pull(fraction)
+joint_ind <- as.integer(
+  eff1_corr$debt_ratio > p75_debt & eff1_corr$non_emp_rate > 0.5
+)
+
+frac_both_w  <- wt_mean(joint_ind, eff1_corr$facine3)
+frac_both_uw <- mean(joint_ind)
 
 cat(sprintf(
-  "  Fraction of households with debt_ratio > P75 AND non_emp_rate > 50%%: %.4f (%.1f%%)\n",
-  frac_both, frac_both * 100
+  "  Weighted   share (debt_ratio > P75 AND non_emp_rate > 50%%): %.4f (%.1f%%)\n",
+  frac_both_w, frac_both_w * 100
+))
+cat(sprintf(
+  "  Unweighted share (debt_ratio > P75 AND non_emp_rate > 50%%): %.4f (%.1f%%)\n",
+  frac_both_uw, frac_both_uw * 100
 ))

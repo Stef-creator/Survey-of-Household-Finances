@@ -79,6 +79,11 @@ p2b <- ggplot2::ggplot(plot2b_data,
 save_plot(p2b, "Q2b_homeownership_by_age_gender.png")
 
 # ---- Q2c: Median total wealth by age group with bootstrapped 95% CI ---------
+# Stratified bootstrap by age group: within each replication, observations are
+# resampled with replacement *within* each age group, holding the per-cell
+# sample size fixed. This avoids replication-to-replication variation in
+# age-cell sizes, which would otherwise inflate CI width — particularly
+# important for the smallest cell (25-29, n = 69).
 set.seed(123)
 N_BOOT <- 500
 
@@ -94,8 +99,11 @@ boot_wmed_by_age <- function(data, idx) {
   })
 }
 
-cat("\nQ2c – Running bootstrap (n =", N_BOOT, ")... this may take ~1 min.\n")
-boot_res <- boot::boot(eff1_age, boot_wmed_by_age, R = N_BOOT)
+cat("\nQ2c – Running stratified bootstrap (n =", N_BOOT, ")... this may take ~1 min.\n")
+boot_res <- boot::boot(
+  eff1_age, boot_wmed_by_age, R = N_BOOT,
+  strata = eff1_age$age_group
+)
 
 # Observed medians and 95% percentile bootstrap CIs
 boot_ci_df <- purrr::map_dfr(seq_along(age_groups_ordered), function(j) {
@@ -222,7 +230,7 @@ tbl_own_tex <- kableExtra::kbl(
   escape    = FALSE,
   align     = c("l", "r", "r", "r", "r"),
   caption   = "Weighted homeownership rate by age group and gender (EFF 2017, imp = 1)",
-  label     = "tab:homeownership_age_gender"
+  label    = "homeownership_age_gender"
 ) |>
   kableExtra::kable_styling(latex_options = c("hold_position")) |>
   kableExtra::add_header_above(
@@ -257,7 +265,7 @@ tbl_wealth_tex <- kableExtra::kbl(
   escape    = FALSE,
   align     = c("l", "r", "r"),
   caption   = "Weighted median total net wealth by age group with bootstrapped 95\\% confidence intervals (EFF 2017, imp = 1)",
-  label     = "tab:wealth_by_age"
+  label    = "wealth_by_age"
 ) |>
   kableExtra::kable_styling(latex_options = c("hold_position")) |>
   kableExtra::footnote(

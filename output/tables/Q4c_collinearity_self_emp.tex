@@ -1,0 +1,20 @@
+\begin{table}[!h]
+
+\caption{\label{tab:collin_self_emp}Collinearity diagnostics: self-employment status and business ownership (EFF 2017, imp~=~1)}
+\centering
+\begin{tabular}[t]{lr}
+\toprule
+Statistic & Value\\
+\midrule
+Weighted Pearson $r(\text{self\_emp},\,\text{neg})$ & 0.6771\\
+\quad $t$-statistic ($H_0\colon r = 0$) & 73.666\\
+\quad $p$-value & 0.0000\\
+$R^2$ with self-employment & 0.4916\\
+$R^2$ without self-employment & 0.1513\\
+\addlinespace
+Drop in $R^2$ (share of full $R^2$) & 0.3402 (69.2\%)\\
+\bottomrule
+\multicolumn{2}{l}{\rule{0pt}{1em}\textit{Notes: }}\\
+\multicolumn{2}{l}{\rule{0pt}{1em}$t$-test uses the standard Pearson formula $t = r\sqrt{(n-2)/(1-r^2)}$ with $df = n - 2 = 6411$. The drop in $R^2$ compares the full LPM (with self-employment in labour status) against a restricted model where self-employed households are reclassified as employed. Survey weights (\texttt{facine3}) applied throughout.}\\
+\end{tabular}
+\end{table}

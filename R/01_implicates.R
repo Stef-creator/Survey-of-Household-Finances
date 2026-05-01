@@ -84,7 +84,7 @@ print(imp_estimates, digits = 6)
 # W   = average within-imputation variance
 # B   = between-imputation variance (using M-1 denominator)
 # T   = total variance = W + (1 + 1/M) * B
-# df  = Barnard & Rubin (1999) degrees of freedom
+# df  = Rubin (1987) degrees of freedom
 
 Q_bar  <- mean(imp_estimates$Q_m)
 W_bar  <- mean(imp_estimates$U_m)
@@ -92,7 +92,7 @@ B      <- var(imp_estimates$Q_m)          # uses 1/(M-1) denominator
 T_var  <- W_bar + (1 + 1 / M_IMP) * B
 SE_T   <- sqrt(T_var)
 
-# Degrees of freedom (Barnard & Rubin 1999)
+# Degrees of freedom (Rubin 1987)
 r_hat  <- (1 + 1 / M_IMP) * B / W_bar   # relative increase in variance
 df_old <- (M_IMP - 1) * (1 + 1 / r_hat)^2
 
@@ -135,7 +135,7 @@ tbl_imp_tex <- kableExtra::kbl(
   booktabs = TRUE,
   escape   = FALSE,
   caption  = "Weighted mean total net wealth by implicate (EFF 2017)",
-  label    = "tab:implicates"
+  label    = "implicates"
 ) |>
   kableExtra::kable_styling(latex_options = c("hold_position")) |>
   kableExtra::footnote(
@@ -179,13 +179,13 @@ tbl_rubin_tex <- kableExtra::kbl(
   escape   = FALSE,
   col.names = c("Quantity", "Value"),
   caption  = "Rubin's rules: combined estimate for mean total net wealth (EFF 2017)",
-  label    = "tab:rubin"
+  label    = "rubin"
 ) |>
   kableExtra::kable_styling(latex_options = c("hold_position")) |>
   kableExtra::column_spec(1, width = "8cm") |>
   kableExtra::column_spec(2, width = "5cm") |>
   kableExtra::footnote(
-    general = "$M = 5$ implicates. Degrees of freedom follow Barnard \\\\& Rubin (1999).",
+    general = "$M = 5$ implicates. Degrees of freedom follow Rubin (1987).",
     escape  = FALSE,
     general_title = "Note:"
   )
@@ -224,7 +224,7 @@ tbl_se_tex <- kableExtra::kbl(
   escape    = FALSE,
   col.names = c("Approach", "SE (EUR)", "Comment"),
   caption   = "Standard error of weighted mean total net wealth under alternative approaches (EFF 2017)",
-  label     = "tab:se_comparison"
+  label    = "se_comparison"
 ) |>
   kableExtra::kable_styling(latex_options = c("hold_position")) |>
   kableExtra::column_spec(1, width = "5.5cm") |>

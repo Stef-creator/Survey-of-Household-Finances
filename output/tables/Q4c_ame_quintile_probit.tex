@@ -1,0 +1,18 @@
+\begin{table}[!h]
+
+\caption{\label{tab:ame_quintile_probit}Average marginal effect of the education proxy on business ownership by net wealth quintile --- LPM vs probit (EFF 2017, imp~=~1)}
+\centering
+\begin{tabular}[t]{crrrr}
+\toprule
+Wealth quintile & $N$ & Mean $\hat{P}(\text{neg}=1)$ & AME LPM (pp) & AME Probit (pp)\\
+\midrule
+Q1 & 775 & 0.083 & -4.60 & 3.65\\
+Q2 & 846 & 0.086 & -2.92 & 3.52\\
+Q3 & 946 & 0.086 & 0.38 & 3.34\\
+Q4 & 1039 & 0.119 & -0.13 & 3.81\\
+Q5 & 2807 & 0.197 & 1.99 & 4.56\\
+\bottomrule
+\multicolumn{5}{l}{\rule{0pt}{1em}\textit{Notes: }}\\
+\multicolumn{5}{l}{\rule{0pt}{1em}LPM AME varies by quintile via proxy $\times$ wealth quintile interactions (delta-method SEs). Probit AME computed as $\overline{\phi(\hat{\eta}_i)\,\hat{\beta}_{\text{proxy}}}$ within each quintile. Survey weights (\texttt{facine3}) applied; HC1 robust SEs used for both models.}\\
+\end{tabular}
+\end{table}

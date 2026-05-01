@@ -1,41 +1,57 @@
 \begin{table}
 
-\caption{Weighted LPM: business ownership (EFF 2017, imp~=~1)}
+\caption{Weighted LPM with interactions: business ownership (EFF 2017, imp~=~1)}
 \centering
 \begin{tabular}[t]{lc}
 \toprule
   & Business ownership\\
 \midrule
-Intercept & \num{-0.0428}\\
- & (\num{0.0553})\\
-Education proxy ($\hat{p} \times \mathbb{1}_{\text{high-educ}}$) & \num{0.0433}**\\
- & (\num{0.0192})\\
-Age & \num{0.0012}\\
- & (\num{0.0019})\\
-Age$^2$ & \num{-0.0000}\\
- & (\num{0.0000})\\
+Intercept & 0.0877\\
+ & (0.0578)\\
+Age & -0.0042**\\
+ & (0.0019)\\
+Age$^2$ & 2.18e-05\\
+ & (1.50e-05)\\
+Education proxy & -0.0460\\
+ & (0.0347)\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\textit{Wealth quintile (ref.: Q1)}}\\
+\hspace{6pt} Q2 & 0.0661***\\
+ & (0.0162)\\
+\hspace{6pt} Q3 & 0.0503***\\
+ & (0.0137)\\
+\hspace{6pt} Q4 & 0.0964***\\
+ & (0.0174)\\
+\hspace{6pt} Q5 & 0.1400***\\
+ & (0.0200)\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\textit{Proxy $\times$ wealth quintile}}\\
+\hspace{6pt} Proxy $\times$ Q2 & 0.0168\\
+ & (0.0494)\\
+\hspace{6pt} Proxy $\times$ Q3 & 0.0498\\
+ & (0.0426)\\
+\hspace{6pt} Proxy $\times$ Q4 & 0.0447\\
+ & (0.0519)\\
+\hspace{6pt} Proxy $\times$ Q5 & 0.0659\\
+ & (0.0558)\\
 \addlinespace[0.3em]
 \multicolumn{2}{l}{\textit{Labour status (ref.: Employed)}}\\
-\hspace{1em}Self-employed & \num{0.7247}***\\
-\hspace{1em} & (\num{0.0264})\\
-\hspace{1em}Unemployed & \num{-0.0004}\\
-\hspace{1em} & (\num{0.0156})\\
-\hspace{1em}Retired & \num{0.0098}\\
-\hspace{1em} & (\num{0.0146})\\
-\hspace{1em}Inactive & \num{0.0201}\\
-\hspace{1em} & (\num{0.0167})\\
-Household size & \num{0.0254}***\\
- & (\num{0.0047})\\
+\hspace{6pt} Self-employed & 0.6971***\\
+ & (0.0270)\\
+\hspace{6pt} Unemployed & 0.0119\\
+ & (0.0155)\\
+\hspace{6pt} Retired & -0.0037\\
+ & (0.0148)\\
+\hspace{6pt} Inactive & 0.0202\\
+ & (0.0169)\\
+Household size & 0.0194***\\
+ & (0.0045)\\
 \midrule
-$N$ & \num{6413}\\
-$R^2$ & \num{0.4732}\\
+$N$ & 6413\\
+$R^2$ & 0.4920\\
 \bottomrule
-\multicolumn{2}{l}{\rule{0pt}{1em}\textit{\textit{Notes:} }}\\
+\multicolumn{2}{l}{\rule{0pt}{1em}\textit{Notes: }}\\
 \multicolumn{2}{l}{\rule{0pt}{1em}HC1 robust standard errors in parentheses. Survey weights (\texttt{facine3}) applied. Proxy $= \hat{p}(\text{2nd lang} \mid \text{educ}) \times \mathbb{1}(\text{college+})$.}\\
-\multicolumn{2}{l}{\rule{0pt}{1em}\textit{Significance: }}\\
-\multicolumn{2}{l}{\rule{0pt}{1em}\textsuperscript{*} $p<0.10$}\\
-\multicolumn{2}{l}{\rule{0pt}{1em}\textsuperscript{\dag} $p<0.05$}\\
-\multicolumn{2}{l}{\rule{0pt}{1em}\textsuperscript{\ddag} $p<0.01$}\\
 \multicolumn{2}{l}{\rule{0pt}{1em}* p $<$ 0.1, ** p $<$ 0.05, *** p $<$ 0.01}\\
 \end{tabular}
 \end{table}

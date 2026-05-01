@@ -6,52 +6,48 @@
 \toprule
   & Main residence & Secondary home\\
 \midrule
-Intercept & \num{-0.646}*** & \num{-1.233}***\\
- & (\num{0.119}) & (\num{0.118})\\
-Age & \num{0.038}*** & \num{0.036}***\\
- & (\num{0.004}) & (\num{0.004})\\
-Age$^2$ & \num{-0.000}*** & \num{-0.000}***\\
- & (\num{0.000}) & (\num{0.000})\\
+Intercept & -0.646*** & -1.233***\\
+ & (0.119) & (0.118)\\
+Age & 0.038*** & 0.036***\\
+ & (3.94e-03) & (3.95e-03)\\
+Age$^2$ & -2.73e-04*** & -2.56e-04***\\
+ & (3.46e-05) & (3.64e-05)\\
 \addlinespace[0.3em]
 \multicolumn{3}{l}{\textit{Education (ref.: Illiterate)}}\\
-\hspace{1em}\hspace{6pt} Primary & \num{-0.021} & \num{0.179}***\\
-\hspace{1em} & (\num{0.050}) & (\num{0.062})\\
-\hspace{1em}\hspace{6pt} Lower secondary (ESO) & \num{0.051} & \num{0.231}***\\
-\hspace{1em} & (\num{0.054}) & (\num{0.065})\\
-\hspace{1em}\hspace{6pt} Vocational & \num{0.130}** & \num{0.262}***\\
-\hspace{1em} & (\num{0.060}) & (\num{0.073})\\
-\hspace{1em}\hspace{6pt} Upper secondary (Bachillerato) & \num{-0.045} & \num{0.273}***\\
-\hspace{1em} & (\num{0.055}) & (\num{0.065})\\
-\hspace{1em}\hspace{6pt} Post-secondary & \num{0.053} & \num{0.332}***\\
-\hspace{1em} & (\num{0.055}) & (\num{0.067})\\
-\hspace{1em}\hspace{6pt} University & \num{0.077} & \num{0.417}***\\
-\hspace{1em} & (\num{0.053}) & (\num{0.064})\\
-\hspace{1em}\hspace{6pt} Other & \num{-0.463}** & \num{0.113}\\
-\hspace{1em} & (\num{0.216}) & (\num{0.208})\\
+\hspace{6pt} Primary & -0.021 & 0.179***\\
+ & (0.050) & (0.062)\\
+\hspace{6pt} Lower secondary (ESO) & 0.051 & 0.231***\\
+ & (0.054) & (0.065)\\
+\hspace{6pt} Vocational & 0.130** & 0.262***\\
+ & (0.060) & (0.073)\\
+\hspace{6pt} Upper secondary (Bachillerato) & -0.045 & 0.273***\\
+ & (0.055) & (0.065)\\
+\hspace{6pt} Post-secondary & 0.053 & 0.332***\\
+ & (0.055) & (0.067)\\
+\hspace{6pt} University & 0.077 & 0.417***\\
+ & (0.053) & (0.064)\\
+\hspace{6pt} Other & -0.463** & 0.113\\
+ & (0.216) & (0.208)\\
 \addlinespace[0.3em]
 \multicolumn{3}{l}{\textit{Labour status (ref.: Employed)}}\\
-\hspace{1em}\hspace{6pt} Self-employed & \num{0.088}*** & \num{0.248}***\\
-\hspace{1em} & (\num{0.033}) & (\num{0.041})\\
-\hspace{1em}\hspace{6pt} Unemployed & \num{-0.128}*** & \num{-0.035}\\
-\hspace{1em} & (\num{0.034}) & (\num{0.035})\\
-\hspace{1em}\hspace{6pt} Retired & \num{0.033} & \num{0.124}***\\
-\hspace{1em} & (\num{0.025}) & (\num{0.034})\\
-\hspace{1em}\hspace{6pt} Inactive & \num{0.031} & \num{0.052}\\
-\hspace{1em} & (\num{0.027}) & (\num{0.033})\\
-Household size & \num{0.034}*** & \num{0.033}***\\
- & (\num{0.008}) & (\num{0.008})\\
-Log income & \num{0.011}** & \num{0.012}**\\
- & (\num{0.005}) & (\num{0.005})\\
+\hspace{6pt} Self-employed & 0.088*** & 0.248***\\
+ & (0.033) & (0.041)\\
+\hspace{6pt} Unemployed & -0.128*** & -0.035\\
+ & (0.034) & (0.035)\\
+\hspace{6pt} Retired & 0.033 & 0.124***\\
+ & (0.025) & (0.034)\\
+\hspace{6pt} Inactive & 0.031 & 0.052\\
+ & (0.027) & (0.033)\\
+Household size & 0.034*** & 0.033***\\
+ & (0.008) & (0.008)\\
+Log income & 0.011** & 0.012**\\
+ & (4.66e-03) & (4.71e-03)\\
 \midrule
-$N$ & \num{6413} & \num{6413}\\
-$R^2$ & \num{0.120} & \num{0.133}\\
+$N$ & 6413 & 6413\\
+$R^2$ & 0.120 & 0.133\\
 \bottomrule
-\multicolumn{3}{l}{\rule{0pt}{1em}\textit{\textit{Notes:} }}\\
+\multicolumn{3}{l}{\rule{0pt}{1em}\textit{Notes: }}\\
 \multicolumn{3}{l}{\rule{0pt}{1em}HC1 robust standard errors in parentheses. Survey weights (\texttt{facine3}) applied. Log income $= \ln(\max(\text{hh\_inc},\,1))$.}\\
-\multicolumn{3}{l}{\rule{0pt}{1em}\textit{Significance: }}\\
-\multicolumn{3}{l}{\rule{0pt}{1em}\textsuperscript{*} $p<0.10$}\\
-\multicolumn{3}{l}{\rule{0pt}{1em}\textsuperscript{\dag} $p<0.05$}\\
-\multicolumn{3}{l}{\rule{0pt}{1em}\textsuperscript{\ddag} $p<0.01$}\\
 \multicolumn{3}{l}{\rule{0pt}{1em}* p $<$ 0.1, ** p $<$ 0.05, *** p $<$ 0.01}\\
 \end{tabular}
 \end{table}
