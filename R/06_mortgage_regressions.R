@@ -83,29 +83,6 @@ print(lmtest::coeftest(m2, vcov = sandwich::vcovHC(m2, type = "HC1")))
 cat("\nQ6b – Mortgage holder LPM: Specification 3 (+ Interaction)\n")
 print(lmtest::coeftest(m3, vcov = sandwich::vcovHC(m3, type = "HC1")))
 
-cat("\n  Q6b Interpretation notes:
-  non_emp_rate : expected NEGATIVE — more non-employed members => lower
-                 credit access / less ability to sustain mortgage payments.
-                 May become attenuated once wealth quintile is controlled.
-  fin_share    : empirically POSITIVE. Mechanically a higher financial-wealth
-                 share means real estate is a smaller portion of net wealth,
-                 which would suggest a negative sign. The data deliver the
-                 opposite because two behavioural channels dominate the
-                 accounting identity: (i) financial assets serve as collateral
-                 / precautionary buffers, relaxing credit constraints; and
-                 (ii) fin_share proxies for financial sophistication, with such
-                 households more likely to hold mortgage debt alongside
-                 financial assets rather than prepay it.
-  age_resp     : expected hump-shaped (positive then negative): young homeowners
-                 are more likely to be actively paying a mortgage; older ones
-                 have paid it off.
-  educ_cat     : higher education => higher mortgage probability (income/access).
-  hhsize       : larger households => more likely to have a mortgage (family need).
-  wealth_q     : adding quintiles typically absorbs the non_emp_rate effect
-                 (wealth correlates with both employment and mortgage payoff).
-  Interaction  : if positive, the penalty of non-employment is smaller for
-                 households with high financial wealth (buffer effect).\n")
-
 # ---- Q6c: LaTeX regression table with modelsummary -------------------------
 models_q6 <- list(
   "(1) Baseline"           = m1,

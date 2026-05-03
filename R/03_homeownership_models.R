@@ -33,26 +33,6 @@ lpm_main_rse <- lmtest::coeftest(lpm_main,
 cat("\nQ3a – Weighted LPM: main-residence ownership\n")
 print(lpm_main_rse)
 
-cat("\n  Interpretation notes:
-  age_resp   : expected positive (ownership rises with age, life-cycle pattern)
-  age2       : expected negative (ownership peaks then levels off)
-  educ_cat   : higher education => higher ownership (income/asset effect)
-  labour_cat : employed > unemployed/inactive (income stability drives ownership)
-  hhsize     : larger households may have higher ownership (family formation)
-  log_inc    : positive (higher income -> more likely to own)
-  These should align with the lifecycle pattern in Q2.\n")
-
-# ---- Q3b: LPM drawbacks + weighted probit -----------------------------------
-cat("\nQ3b – LPM drawbacks:
-  1. Predicted probabilities can exceed [0, 1].
-  2. Error term is heteroskedastic by construction (Var(e|x) = p(x)(1-p(x))).
-  3. Marginal effects are assumed constant across the covariate space.
-  4. Coefficient estimates remain consistent (under weak conditions) but
-     inference under homoskedastic OLS is invalid without robust SEs.
-  Alternative: weighted probit (logistic would also be valid; probit is chosen
-  because it imposes normality on the latent index, which is standard in the
-  homeownership literature).\n")
-
 # Weighted probit (normalise weights to avoid numerical overflow in glm;
 # relative weights are preserved; coefficient interpretation unchanged).
 w_mean <- mean(eff1_m$facine3)
@@ -310,19 +290,6 @@ tbl_ame_tex <- kableExtra::kbl(
 
 writeLines(tbl_ame_tex, file.path(TAB_DIR, "Q3b_homeownership_ame.tex"))
 cat("  Table saved: Q3b_homeownership_ame.tex\n")
-
-cat("\n  Q3d discussion:
-  Secondary-home ownership is rarer and driven more strongly by wealth/income:
-  - Age profile: ownership of secondary homes peaks later in the lifecycle
-    (wealth accumulation takes time), while main-residence ownership peaks
-    earlier (family formation motive).
-  - Education: university education raises both, but the gradient is steeper
-    for secondary homes (wealth effect dominates).
-  - Labour status: unemployment/retirement reduce both, but the penalty for
-    secondary homes is smaller (stock variable, already accumulated).
-  - Income: log income coefficient larger for secondary homes (wealth is key).
-  Broadly, both outcomes share the lifecycle and income/education drivers, but
-  secondary homes reflect accumulated wealth more than housing need.\n")
 
 # =============================================================================
 # Q3e: Full vs grouped education specification comparison

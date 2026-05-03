@@ -203,21 +203,6 @@ cat(sprintf(
   "\nQ5c – Weighted Pearson correlation (non_emp_rate vs debt_ratio):\n  r = %.4f | t(%d) = %.3f | p ≈ %.4f\n",
   r_weighted, n_corr - 2, t_stat, p_val
 ))
-if (p_val < 0.05 && r_weighted > 0) {
-  cat("  => Positive and statistically significant at the 5% level.\n")
-  cat("  Interpretation: households with a higher share of non-employed members\n")
-  cat("  tend to carry larger debt relative to net wealth, consistent with\n")
-  cat("  mortgages taken on before job loss or low wealth accumulation.\n")
-} else if (p_val < 0.05 && r_weighted < 0) {
-  cat("  => Negative and statistically significant at the 5% level.\n")
-  cat("  Interpretation: households with more non-employed members tend to have\n")
-  cat("  LOWER debt-to-wealth ratios. This likely reflects a selection effect:\n")
-  cat("  banks restrict credit to low-income / non-employed households, so they\n")
-  cat("  accumulate less debt. Non-employed households also tend to have lower\n")
-  cat("  net wealth (the denominator), but the debt reduction dominates.\n")
-} else {
-  cat("  => Not significant at 5%. The relationship is weak or absent.\n")
-}
 
 # ---- Q5d: Fraction combining high debt AND high non-employment --------------
 # "High debt": debt_ratio > 75th weighted percentile (computed on valid obs)

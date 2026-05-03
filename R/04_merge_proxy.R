@@ -484,9 +484,9 @@ cat("  Table saved: Q4c_ame_quintile_probit.tex\n")
 # =============================================================================
 # Q4c (extension): Collinearity diagnostics — self-employed vs business owner
 # -----------------------------------------------------------------------------
-# Motivation: the LPM in Table 9 reports R^2 = 0.47, but inspection of the
+# Motivation: the LPM in Table 11 reports R^2 = 0.49, but inspection of the
 # coefficients suggests that 'self_employed' (labour_cat) is doing nearly all
-# the work (beta = 0.72). We document the strong overlap between the
+# the work (beta = 0.70). We document the strong overlap between the
 # self-employment dummy and the business-ownership outcome (`neg`) using:
 #   1. weighted cross-tabulation
 #   2. weighted Pearson correlation
